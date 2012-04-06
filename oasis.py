@@ -1,12 +1,10 @@
-## Importing Standard Libraries ##
 import sys
 
 class Anti_soft_Drink():
     print ""
     print "This is a console program that predicts when a user will be diabetic."
     ## Introduction By Raindolf ##
-    
-    ## Two empty lines ##
+   
     print ""
     print ""
     
