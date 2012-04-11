@@ -7,7 +7,7 @@ class Anti_soft_Drink():
    
     print ""
     print ""
-    
+    ## Creatin a space for the user to input his or her details ##
     print "Please enter your full name:"
     name = raw_input()
     print "Welcome " + name + ", this is a basic Python program that predicts when u are liable to be diabetic."
