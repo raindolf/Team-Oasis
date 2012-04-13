@@ -1,15 +1,13 @@
-## Importing Standard Libraries ##
 import sys
 
 class Anti_soft_Drink():
     print ""
     print "This is a console program that predicts when a user will be diabetic."
     ## Introduction By Raindolf ##
-    
-    ## Two empty lines ##
+   
     print ""
     print ""
-    
+    ## Creatin a space for the user to input his or her details ##
     print "Please enter your full name:"
     name = raw_input()
     print "Welcome " + name + ", this is a basic Python program that predicts when u are liable to be diabetic."
