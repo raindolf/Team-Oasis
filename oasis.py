@@ -32,3 +32,4 @@ class Anti_soft_Drink():
           
             sys.exit()
 ## Send me your emails for more raindolf@oasiswebsoft.com ##
+## Kindly add us on fb www.fb.com/oasisweb ##
