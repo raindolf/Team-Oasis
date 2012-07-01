@@ -36,4 +36,3 @@ raw_input("Press <enter> to exit ")
 
 ## Send me your emails for more raindolf@oasiswebsoft.com ##
 ## Kindly add us on fb www.fb.com/oasisweb ##
-## Raindolf , I have updated the sourcecode and removed the 'while' statement,
