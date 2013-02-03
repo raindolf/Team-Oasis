@@ -265,6 +265,8 @@ class NewTest(wx.Frame):
 			dia = Diabeetus(None, title="Diabeetus")
 			dia.userList.InsertStringItem(0, name)
 			dia.userList.SetStringItem(0, 1, risk)
+		else:
+			pass
 		wizard.Destroy()
 
 class AutoWidthListCtrl(wx.ListCtrl, ListCtrlAutoWidthMixin):
