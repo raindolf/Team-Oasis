@@ -258,6 +258,8 @@ class NewTest(wx.Frame):
 			nameDlg = wx.TextEntryDialog(self, "What is your name?", "Name", "")
 			if nameDlg.ShowModal() == wx.ID_OK:
 				name = nameDlg.GetValue()
+			else:
+				name = "Anonymous"
 			
 				
 			wx.MessageBox(name + ", your risk of diabetes is " + risk + ". At your risk level," + riskAmt, risk.capitalize() + " risk")
