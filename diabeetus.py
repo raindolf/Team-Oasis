@@ -6,6 +6,12 @@ import sys
 from wx import *
 from wx.lib.mixins.listctrl import ListCtrlAutoWidthMixin
 from wx import wizard as wiz
+from wx.lib.wordwrap import wordwrap
+
+name = ""
+risk = ""
+
+progVer = 1.0
 
 class Diabeetus(wx.Frame):
 	def __init__(self, parent, title):
@@ -13,6 +19,10 @@ class Diabeetus(wx.Frame):
 		self.InitUI()
 
 	def InitUI(self):
+		iconFile = "./images/DiabeetusCat.jpg"
+		mainIcon = wx.Icon(iconFile, wx.BITMAP_TYPE_JPEG)
+		self.SetIcon(mainIcon)		
+
 		# Menu Bar #
 		self.mainMenu = wx.MenuBar()
 
@@ -23,9 +33,6 @@ class Diabeetus(wx.Frame):
 		self.mainMenu.Append(fileMenu, "&File")
 
 		helpMenu = wx.Menu()
-		helpItem = helpMenu.Append(wx.ID_HELP, "Help with Diabeetus", "Get help with Diabeetus")
-		helpItem.Enable(False)
-		helpMenu.AppendSeparator()
 		aboutItem = helpMenu.Append(wx.ID_ABOUT, "About Diabeetus", "About this program...")
 		self.mainMenu.Append(helpMenu, "&Help")
 
@@ -36,7 +43,6 @@ class Diabeetus(wx.Frame):
 		# Create Toolbar #
 		toolbar = self.CreateToolBar()
 		newTool = toolbar.AddLabelTool(wx.ID_NEW, 'New', wx.ArtProvider.GetBitmap(wx.ART_NEW))
-		editTool = toolbar.AddLabelTool(wx.ID_EDIT, 'Edit', wx.Bitmap('./icons/preferences.png'))
 		toolbar.AddSeparator()
 		quitTool = toolbar.AddLabelTool(wx.ID_EXIT, 'Quit', wx.ArtProvider.GetBitmap(wx.ART_QUIT))
 		toolbar.Realize()
@@ -47,12 +53,13 @@ class Diabeetus(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.OnQuit, fileQuit)
 		self.Bind(wx.EVT_MENU, self.OnNew, fileNew)
 		self.Bind(wx.EVT_TOOL, self.OnNew, newTool)
+		self.Bind(wx.EVT_MENU, self.OnAbout, aboutItem)
 		
 
-		self.APList = AutoWidthListCtrl(self)
-		self.APList.setResizeColumn(0)
-		self.APList.InsertColumn(0, "User", width=150)
-		self.APList.InsertColumn(1, "Risk", width=200)
+		self.userList = AutoWidthListCtrl(self)
+		self.userList.setResizeColumn(0)
+		self.userList.InsertColumn(0, "User", width=150)
+		self.userList.InsertColumn(1, "Risk", width=200)
 		
 		self.Center()
 		self.Show()
@@ -60,11 +67,40 @@ class Diabeetus(wx.Frame):
 	def OnNew(self, e):
 		NewTest(None)
 		
+	def Refresh(self, e):
+		self.userList.InsertStringItem(0, name)
+		self.userList.SetStringItem(0, 1, risk)
+		
 	def OnQuit(self, e):
 		app.Exit()
 		
-	def saveProfile(self, e):
-		print "WTF"
+	def OnAbout(self, e):
+		description = """Diabeetus is a FDA-not-approved application on checking if you have diabetes."""
+
+		licence = """Copyright (c) 2013 Cody Dostal, Pivotraze
+
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+        The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. The end-user documentation included with the redistribution, if any, must include the following acknowledgment: "This product includes software developed by Cody Dostal https://github.com/codywd and its contributors", in the same place and form as other third-party acknowledgments. Alternatively, this acknowledgment may appear in the software itself, in the same form and location as other such third-party acknowledgments.
+
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."""
+
+		info = wx.AboutDialogInfo()
+
+		info.SetIcon(wx.Icon('./images/DiabeetusCat.jpg', wx.BITMAP_TYPE_JPEG))
+		info.SetName('Diabeetus')
+		info.SetVersion(str(progVer))
+		info.SetDescription(description)
+		info.SetCopyright("(C) 2012 Cody Dostal (a.k.a. Pivotraze)")
+		info.SetWebSite("https://www.github.com/codywd")
+		info.SetLicence(wordwrap(licence, 350, wx.ClientDC(self)))
+		info.AddDeveloper('Cody Dostal')
+		info.AddDeveloper('Tonte Owusu (Algorithm for checking for diabetes)')
+		info.AddDocWriter('Cody Dostal')
+		info.AddArtist('Google')
+		info.AddTranslator('Cody Dostal (English)')
+
+		wx.AboutBox(info)
 		
 class NewTest(wx.Frame):
 	def __init__(self, parent):
@@ -226,6 +262,9 @@ class NewTest(wx.Frame):
 				
 			wx.MessageBox(name + ", your risk of diabetes is " + risk + ". At your risk level," + riskAmt, risk.capitalize() + " risk")
 			
+			dia = Diabeetus(None, title="Diabeetus")
+			dia.userList.InsertStringItem(0, name)
+			dia.userList.SetStringItem(0, 1, risk)
 		wizard.Destroy()
 
 class AutoWidthListCtrl(wx.ListCtrl, ListCtrlAutoWidthMixin):
